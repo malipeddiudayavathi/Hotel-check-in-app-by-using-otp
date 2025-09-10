@@ -1,0 +1,577 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hotel Check-In App Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <div class="max-w-md mx-auto w-full flex-grow flex flex-col p-6">
+    <!-- Scene 1: Login Page -->
+    <section id="scene-login" class="flex flex-col space-y-6">
+      <h1 class="text-3xl font-semibold text-center text-gray-800">Hotel Check-In</h1>
+      <form id="login-form" class="flex flex-col space-y-4">
+        <label class="flex flex-col text-gray-700 font-medium">
+          Email ID
+          <input
+            type="email"
+            id="login-email"
+            required
+            placeholder="you@example.com"
+            class="mt-1 p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
+        <label class="flex flex-col text-gray-700 font-medium">
+          Password
+          <input
+            type="password"
+            id="login-password"
+            required
+            placeholder="Enter your password"
+            class="mt-1 p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
+        <button
+          type="submit"
+          class="bg-indigo-600 text-white py-3 rounded font-semibold hover:bg-indigo-700 transition"
+        >
+          Login
+        </button>
+      </form>
+      <p class="text-center text-gray-600">
+        Don't have an account?
+        <button
+          id="btn-show-register"
+          class="text-indigo-600 font-semibold hover:underline focus:outline-none"
+        >
+          Register here
+        </button>
+      </p>
+    </section>
+
+    <!-- Scene 1b: Register Page -->
+    <section id="scene-register" class="hidden flex flex-col space-y-6">
+      <h1 class="text-3xl font-semibold text-center text-gray-800">Register</h1>
+      <form id="register-form" class="flex flex-col space-y-4">
+        <label class="flex flex-col text-gray-700 font-medium">
+          Full Name
+          <input
+            type="text"
+            id="register-name"
+            required
+            placeholder="John Doe"
+            class="mt-1 p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
+        <label class="flex flex-col text-gray-700 font-medium">
+          Email ID
+          <input
+            type="email"
+            id="register-email"
+            required
+            placeholder="you@example.com"
+            class="mt-1 p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
+        <label class="flex flex-col text-gray-700 font-medium">
+          Password
+          <input
+            type="password"
+            id="register-password"
+            required
+            placeholder="Create a password"
+            class="mt-1 p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </label>
+        <button
+          type="submit"
+          class="bg-indigo-600 text-white py-3 rounded font-semibold hover:bg-indigo-700 transition"
+        >
+          Register
+        </button>
+      </form>
+      <p class="text-center text-gray-600">
+        Already have an account?
+        <button
+          id="btn-show-login"
+          class="text-indigo-600 font-semibold hover:underline focus:outline-none"
+        >
+          Login here
+        </button>
+      </p>
+    </section>
+
+    <!-- Scene 2: Successful Login Notification -->
+    <section
+      id="scene-login-success"
+      class="hidden flex flex-col items-center justify-center space-y-4"
+    >
+      <i class="fas fa-check-circle text-green-500 text-6xl"></i>
+      <h2 class="text-2xl font-semibold text-green-700">User logged in successfully</h2>
+      <button
+        id="btn-proceed-room-selection"
+        class="mt-4 bg-indigo-600 text-white py-3 px-6 rounded font-semibold hover:bg-indigo-700 transition"
+      >
+        Proceed to Room Selection
+      </button>
+    </section>
+
+    <!-- Scene 3: Room Selection -->
+    <section id="scene-room-selection" class="hidden flex flex-col space-y-6">
+      <h2 class="text-2xl font-semibold text-gray-800 text-center">Select Your Room</h2>
+      <div
+        id="room-list"
+        class="grid grid-cols-3 gap-4 max-h-72 overflow-y-auto border border-gray-300 rounded p-4 bg-white"
+      >
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="A1"
+          type="button"
+        >
+          Room A1
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="A2"
+          type="button"
+        >
+          Room A2
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="A3"
+          type="button"
+        >
+          Room A3
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="B1"
+          type="button"
+        >
+          Room B1
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="B2"
+          type="button"
+        >
+          Room B2
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="B3"
+          type="button"
+        >
+          Room B3
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="B4"
+          type="button"
+        >
+          Room B4
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="B5"
+          type="button"
+        >
+          Room B5
+        </button>
+        <button
+          class="room-item p-3 rounded border border-gray-300 hover:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center font-medium text-gray-700"
+          data-room="B6"
+          type="button"
+        >
+          Room B6
+        </button>
+      </div>
+      <button
+        id="btn-room-next"
+        disabled
+        class="mt-4 bg-indigo-400 text-white py-3 rounded font-semibold cursor-not-allowed"
+      >
+        Next
+      </button>
+    </section>
+
+    <!-- Scene 4: Room Type Selection -->
+    <section id="scene-room-type" class="hidden flex flex-col space-y-6">
+      <h2 class="text-2xl font-semibold text-gray-800 text-center">Select Room Type</h2>
+      <div class="flex flex-col space-y-4">
+        <label class="inline-flex items-center space-x-3 cursor-pointer">
+          <input
+            type="radio"
+            name="room-type"
+            value="General"
+            class="form-radio text-indigo-600"
+          />
+          <span class="text-gray-700 font-medium">General</span>
+        </label>
+        <label class="inline-flex items-center space-x-3 cursor-pointer">
+          <input
+            type="radio"
+            name="room-type"
+            value="Suite"
+            class="form-radio text-indigo-600"
+          />
+          <span class="text-gray-700 font-medium">Suite</span>
+        </label>
+        <label class="inline-flex items-center space-x-3 cursor-pointer">
+          <input
+            type="radio"
+            name="room-type"
+            value="Normal/Non-AC"
+            class="form-radio text-indigo-600"
+          />
+          <span class="text-gray-700 font-medium">Normal/Non-AC</span>
+        </label>
+        <label class="inline-flex items-center space-x-3 cursor-pointer">
+          <input
+            type="radio"
+            name="room-type"
+            value="AC"
+            class="form-radio text-indigo-600"
+          />
+          <span class="text-gray-700 font-medium">AC</span>
+        </label>
+      </div>
+      <button
+        id="btn-room-type-next"
+        disabled
+        class="mt-4 bg-indigo-400 text-white py-3 rounded font-semibold cursor-not-allowed"
+      >
+        Next
+      </button>
+    </section>
+
+    <!-- Scene 5: Check-In Date Selection -->
+    <section id="scene-checkin-date" class="hidden flex flex-col space-y-6">
+      <h2 class="text-2xl font-semibold text-gray-800 text-center">Select Check-In Date</h2>
+      <input
+        type="date"
+        id="checkin-date"
+        min=""
+        class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 max-w-xs mx-auto"
+      />
+      <button
+        id="btn-checkin-date-next"
+        disabled
+        class="mt-4 bg-indigo-400 text-white py-3 rounded font-semibold cursor-not-allowed max-w-xs mx-auto"
+      >
+        Next
+      </button>
+    </section>
+
+    <!-- Scene 6: OTP Verification -->
+    <section id="scene-otp-verification" class="hidden flex flex-col space-y-6">
+      <h2 class="text-2xl font-semibold text-gray-800 text-center">OTP Verification</h2>
+      <p class="text-center text-gray-600 max-w-xs mx-auto">
+        An OTP has been sent to your registered mobile/email. Please enter it below.
+      </p>
+      <input
+        type="text"
+        id="otp-input"
+        maxlength="6"
+        placeholder="Enter 6-digit OTP"
+        class="p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 max-w-xs mx-auto text-center text-xl tracking-widest"
+      />
+      <button
+        id="btn-verify-otp"
+        disabled
+        class="mt-4 bg-indigo-400 text-white py-3 rounded font-semibold cursor-not-allowed max-w-xs mx-auto"
+      >
+        Verify
+      </button>
+      <p class="text-center text-gray-500 text-sm max-w-xs mx-auto">
+        Didn't receive OTP?
+        <button id="btn-resend-otp" class="text-indigo-600 font-semibold hover:underline focus:outline-none">
+          Resend OTP
+        </button>
+      </p>
+      <p id="otp-message" class="text-center text-red-600 font-semibold"></p>
+    </section>
+
+    <!-- Scene 7: Final Confirmation -->
+    <section id="scene-final-confirmation" class="hidden flex flex-col items-center space-y-6">
+      <i class="fas fa-check-circle text-green-600 text-7xl"></i>
+      <h2 class="text-3xl font-semibold text-green-700 text-center max-w-xs">
+        You have successfully checked in!
+      </h2>
+      <button
+        id="btn-logout"
+        class="mt-6 bg-red-600 text-white py-3 px-8 rounded font-semibold hover:bg-red-700 transition"
+      >
+        Logout
+      </button>
+    </section>
+  </div>
+
+  <script>
+    // Elements
+    const sceneLogin = document.getElementById('scene-login');
+    const sceneRegister = document.getElementById('scene-register');
+    const sceneLoginSuccess = document.getElementById('scene-login-success');
+    const sceneRoomSelection = document.getElementById('scene-room-selection');
+    const sceneRoomType = document.getElementById('scene-room-type');
+    const sceneCheckinDate = document.getElementById('scene-checkin-date');
+    const sceneOtpVerification = document.getElementById('scene-otp-verification');
+    const sceneFinalConfirmation = document.getElementById('scene-final-confirmation');
+
+    const btnShowRegister = document.getElementById('btn-show-register');
+    const btnShowLogin = document.getElementById('btn-show-login');
+
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+
+    const btnProceedRoomSelection = document.getElementById('btn-proceed-room-selection');
+
+    const roomList = document.getElementById('room-list');
+    const btnRoomNext = document.getElementById('btn-room-next');
+
+    const roomTypeRadios = document.getElementsByName('room-type');
+    const btnRoomTypeNext = document.getElementById('btn-room-type-next');
+
+    const checkinDateInput = document.getElementById('checkin-date');
+    const btnCheckinDateNext = document.getElementById('btn-checkin-date-next');
+
+    const otpInput = document.getElementById('otp-input');
+    const btnVerifyOtp = document.getElementById('btn-verify-otp');
+    const btnResendOtp = document.getElementById('btn-resend-otp');
+    const otpMessage = document.getElementById('otp-message');
+
+    const btnLogout = document.getElementById('btn-logout');
+
+    // State
+    let selectedRoom = null;
+    let selectedRoomType = null;
+    let selectedCheckinDate = null;
+    let generatedOtp = null;
+
+    // Utility: Show only one scene
+    function showScene(scene) {
+      [
+        sceneLogin,
+        sceneRegister,
+        sceneLoginSuccess,
+        sceneRoomSelection,
+        sceneRoomType,
+        sceneCheckinDate,
+        sceneOtpVerification,
+        sceneFinalConfirmation,
+      ].forEach((s) => {
+        s.classList.add('hidden');
+      });
+      scene.classList.remove('hidden');
+    }
+
+    // Set minimum date for check-in date input to today
+    function setMinCheckinDate() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      checkinDateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    setMinCheckinDate();
+
+    // Show Register Page
+    btnShowRegister.addEventListener('click', () => {
+      showScene(sceneRegister);
+    });
+
+    // Show Login Page
+    btnShowLogin.addEventListener('click', () => {
+      showScene(sceneLogin);
+    });
+
+    // Register Form Submit (simulate success)
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Normally, validate and send to backend here
+      alert('Registration successful! Please login.');
+      registerForm.reset();
+      showScene(sceneLogin);
+    });
+
+    // Login Form Submit (simulate success)
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Normally, validate and authenticate here
+      showScene(sceneLoginSuccess);
+    });
+
+    // Proceed to Room Selection
+    btnProceedRoomSelection.addEventListener('click', () => {
+      showScene(sceneRoomSelection);
+    });
+
+    // Room Selection logic
+    roomList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('room-item')) {
+        // Remove selection from all
+        document.querySelectorAll('.room-item').forEach((btn) => {
+          btn.classList.remove('border-indigo-600', 'bg-indigo-100');
+        });
+        // Select clicked
+        e.target.classList.add('border-indigo-600', 'bg-indigo-100');
+        selectedRoom = e.target.dataset.room;
+        btnRoomNext.disabled = false;
+        btnRoomNext.classList.remove('bg-indigo-400', 'cursor-not-allowed');
+        btnRoomNext.classList.add('bg-indigo-600', 'cursor-pointer');
+      }
+    });
+
+    // Room Next button
+    btnRoomNext.addEventListener('click', () => {
+      if (!selectedRoom) return;
+      showScene(sceneRoomType);
+    });
+
+    // Room Type selection logic
+    roomTypeRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        selectedRoomType = radio.value;
+        btnRoomTypeNext.disabled = false;
+        btnRoomTypeNext.classList.remove('bg-indigo-400', 'cursor-not-allowed');
+        btnRoomTypeNext.classList.add('bg-indigo-600', 'cursor-pointer');
+      });
+    });
+
+    // Room Type Next button
+    btnRoomTypeNext.addEventListener('click', () => {
+      if (!selectedRoomType) return;
+      showScene(sceneCheckinDate);
+    });
+
+    // Check-in Date input change
+    checkinDateInput.addEventListener('input', () => {
+      if (checkinDateInput.value) {
+        selectedCheckinDate = checkinDateInput.value;
+        btnCheckinDateNext.disabled = false;
+        btnCheckinDateNext.classList.remove('bg-indigo-400', 'cursor-not-allowed');
+        btnCheckinDateNext.classList.add('bg-indigo-600', 'cursor-pointer');
+      } else {
+        selectedCheckinDate = null;
+        btnCheckinDateNext.disabled = true;
+        btnCheckinDateNext.classList.add('bg-indigo-400', 'cursor-not-allowed');
+        btnCheckinDateNext.classList.remove('bg-indigo-600', 'cursor-pointer');
+      }
+    });
+
+    // Check-in Date Next button
+    btnCheckinDateNext.addEventListener('click', () => {
+      if (!selectedCheckinDate) return;
+      // Simulate sending OTP
+      generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
+      console.log('Generated OTP:', generatedOtp);
+      otpMessage.textContent = '';
+      otpInput.value = '';
+      btnVerifyOtp.disabled = true;
+      btnVerifyOtp.classList.add('bg-indigo-400', 'cursor-not-allowed');
+      btnVerifyOtp.classList.remove('bg-indigo-600', 'cursor-pointer');
+      showScene(sceneOtpVerification);
+      alert(`OTP sent to your registered mobile/email: ${generatedOtp}`);
+    });
+
+    // OTP input validation
+    otpInput.addEventListener('input', () => {
+      const val = otpInput.value.trim();
+      if (/^\d{6}$/.test(val)) {
+        btnVerifyOtp.disabled = false;
+        btnVerifyOtp.classList.remove('bg-indigo-400', 'cursor-not-allowed');
+        btnVerifyOtp.classList.add('bg-indigo-600', 'cursor-pointer');
+      } else {
+        btnVerifyOtp.disabled = true;
+        btnVerifyOtp.classList.add('bg-indigo-400', 'cursor-not-allowed');
+        btnVerifyOtp.classList.remove('bg-indigo-600', 'cursor-pointer');
+      }
+      otpMessage.textContent = '';
+    });
+
+    // Verify OTP button
+    btnVerifyOtp.addEventListener('click', () => {
+      if (otpInput.value.trim() === generatedOtp) {
+        otpMessage.textContent = '';
+        showScene(sceneFinalConfirmation);
+      } else {
+        otpMessage.textContent = 'Invalid OTP. Please try again.';
+      }
+    });
+
+    // Resend OTP button
+    btnResendOtp.addEventListener('click', () => {
+      generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
+      console.log('Resent OTP:', generatedOtp);
+      alert(`OTP resent to your registered mobile/email: ${generatedOtp}`);
+      otpInput.value = '';
+      btnVerifyOtp.disabled = true;
+      btnVerifyOtp.classList.add('bg-indigo-400', 'cursor-not-allowed');
+      btnVerifyOtp.classList.remove('bg-indigo-600', 'cursor-pointer');
+      otpMessage.textContent = '';
+    });
+
+    // Logout button
+    btnLogout.addEventListener('click', () => {
+      // Reset all state and forms
+      selectedRoom = null;
+      selectedRoomType = null;
+      selectedCheckinDate = null;
+      generatedOtp = null;
+
+      loginForm.reset();
+      registerForm.reset();
+      btnRoomNext.disabled = true;
+      btnRoomNext.classList.add('bg-indigo-400', 'cursor-not-allowed');
+      btnRoomNext.classList.remove('bg-indigo-600', 'cursor-pointer');
+
+      btnRoomTypeNext.disabled = true;
+      btnRoomTypeNext.classList.add('bg-indigo-400', 'cursor-not-allowed');
+      btnRoomTypeNext.classList.remove('bg-indigo-600', 'cursor-pointer');
+
+      btnCheckinDateNext.disabled = true;
+      btnCheckinDateNext.classList.add('bg-indigo-400', 'cursor-not-allowed');
+      btnCheckinDateNext.classList.remove('bg-indigo-600', 'cursor-pointer');
+
+      otpInput.value = '';
+      btnVerifyOtp.disabled = true;
+      btnVerifyOtp.classList.add('bg-indigo-400', 'cursor-not-allowed');
+      btnVerifyOtp.classList.remove('bg-indigo-600', 'cursor-pointer');
+      otpMessage.textContent = '';
+
+      // Clear room selection highlight
+      document.querySelectorAll('.room-item').forEach((btn) => {
+        btn.classList.remove('border-indigo-600', 'bg-indigo-100');
+      });
+
+      // Clear room type radios
+      roomTypeRadios.forEach((radio) => {
+        radio.checked = false;
+      });
+
+      // Clear check-in date
+      checkinDateInput.value = '';
+
+      showScene(sceneLogin);
+    });
+
+    // Initialize on page load
+    showScene(sceneLogin);
+  </script>
+</body>
+</html>
